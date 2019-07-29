@@ -18,3 +18,23 @@ def mostrar_pessoas(request):
   pessoas = Pessoa.objects.all()
 
   return render(request, 'pessoas.html', {'dados': pessoas})
+
+def login(request):
+  if request.method == 'POST':
+    email_formulario = request.POST.get('email')
+    pessoa_banco_dados = Pessoa.objects.filter(email=email_formulario).first()
+    if pessoa_banco_dados is not None:
+      return render(request, 'pessoa_filtrada.html', {'pessoa': pessoa_banco_dados})
+    return render(request, 'login.html', {'msg': 'Ops, não encontramos'})
+  
+  return render(request, 'login.html', {'msg': 'ola'})
+
+# - Página Login
+# - Render da página login com campo email 
+# e o btn consultar
+# - Ao clicar no botão consultar
+# - Enviar para uma outra página com todos os dados e 
+# conta da pessoa
+# - se a pessoa não for cadastrada, retornar para página
+#  de login
+# com uma mensagem: 'Ops, não encontramos essa pessoa'
